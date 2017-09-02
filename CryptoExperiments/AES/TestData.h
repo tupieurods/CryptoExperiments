@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TESTDATA_H
+#define TESTDATA_H
 
 //Test data, all from whitepaper
 
@@ -26,3 +27,5 @@ unsigned char cipherOutput128[16] = {
   0xdc, 0x11, 0x85, 0x97,
   0x19, 0x6a, 0x0b, 0x32
 };
+
+#endif // TESTDATA_H
