@@ -148,12 +148,14 @@
   <ItemGroup>
     <ClCompile Include="AesCommon.cpp" />
     <ClCompile Include="AesNaive.cpp" />
+    <ClCompile Include="AesWithTables.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AesCommon.h" />
     <ClInclude Include="AesNaive.h" />
+    <ClInclude Include="AesWithTables.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="TestData.h" />
   </ItemGroup>

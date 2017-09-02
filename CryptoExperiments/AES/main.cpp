@@ -3,9 +3,12 @@
 #include "TestData.h"
 #include "AesCommon.h"
 #include "AesNaive.h"
+#include "AesWithTables.h"
 
 int main()
 {
+  //ComputeAndShowTables();
+
   const AESparam *selectedAesParam = &AES128param;
   const size_t wSize = (selectedAesParam->Nr + 1) * selectedAesParam->Nb;
   unsigned int *w = new unsigned int[wSize];
