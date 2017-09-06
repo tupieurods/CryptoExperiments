@@ -13,10 +13,10 @@ void AddRoundKey(unsigned int *state, unsigned int *w)
 void ShiftRows(unsigned int *state)
 {
   unsigned int tmp[4];
-  tmp[0] = ConstructUint(BYTE3(state[0]), BYTE2(state[1]), BYTE1(state[2]), BYTE0(state[3]));
-  tmp[1] = ConstructUint(BYTE3(state[1]), BYTE2(state[2]), BYTE1(state[3]), BYTE0(state[0]));
-  tmp[2] = ConstructUint(BYTE3(state[2]), BYTE2(state[3]), BYTE1(state[0]), BYTE0(state[1]));
-  tmp[3] = ConstructUint(BYTE3(state[3]), BYTE2(state[0]), BYTE1(state[1]), BYTE0(state[2]));
+  tmp[0] = ConstructUint(BYTE0(state[0]), BYTE1(state[1]), BYTE2(state[2]), BYTE3(state[3]));
+  tmp[1] = ConstructUint(BYTE0(state[1]), BYTE1(state[2]), BYTE2(state[3]), BYTE3(state[0]));
+  tmp[2] = ConstructUint(BYTE0(state[2]), BYTE1(state[3]), BYTE2(state[0]), BYTE3(state[1]));
+  tmp[3] = ConstructUint(BYTE0(state[3]), BYTE1(state[0]), BYTE2(state[1]), BYTE3(state[2]));
   state[0] = tmp[0];
   state[1] = tmp[1];
   state[2] = tmp[2];
@@ -26,10 +26,10 @@ void ShiftRows(unsigned int *state)
 unsigned int MixColumn(unsigned int value)
 {
   return ConstructUint(
-    XTIME(BYTE3(value)) ^ X3(BYTE2(value)) ^ BYTE1(value) ^ BYTE0(value),
-    BYTE3(value) ^ XTIME(BYTE2(value)) ^ X3(BYTE1(value)) ^ BYTE0(value),
-    BYTE3(value) ^ BYTE2(value) ^ XTIME(BYTE1(value)) ^ X3(BYTE0(value)),
-    X3(BYTE3(value)) ^ BYTE2(value) ^ BYTE1(value) ^ XTIME(BYTE0(value))
+    XTIME(BYTE0(value)) ^ X3(BYTE1(value)) ^ BYTE2(value) ^ BYTE3(value),
+    BYTE0(value) ^ XTIME(BYTE1(value)) ^ X3(BYTE2(value)) ^ BYTE3(value),
+    BYTE0(value) ^ BYTE1(value) ^ XTIME(BYTE2(value)) ^ X3(BYTE3(value)),
+    X3(BYTE0(value)) ^ BYTE1(value) ^ BYTE2(value) ^ XTIME(BYTE3(value))
   );
 }
 
@@ -45,10 +45,10 @@ void KeyExpansion(unsigned char *key, unsigned int *w, const AESparam *aesParam)
 {
   for(unsigned int i = 0; i < aesParam->Nk; i++)
   {
-    w[i] = key[i * 4] << 24 & 0xFF000000U
-      | key[i * 4 + 1] << 16 & 0x00FF0000U
-      | key[i * 4 + 2] << 8 & 0x0000FF00U
-      | key[i * 4 + 3] & 0x000000FFU;
+    w[i] = key[i * 4 + 3] << 24 & 0xFF000000U
+      | key[i * 4 + 2] << 16 & 0x00FF0000U
+      | key[i * 4 + 1] << 8 & 0x0000FF00U
+      | key[i * 4 + 0] & 0x000000FFU;
   }
 
   for(unsigned int i = aesParam->Nk; i < (aesParam->Nr + 1) * aesParam->Nb; i++)
@@ -72,10 +72,10 @@ void Cipher(unsigned char *in, unsigned char *out, unsigned int *w, const AESpar
 
   for(size_t i = 0; i < aesParam->Nb; i++)
   {
-    state[i] = in[i * 4] << 24 & 0xFF000000U
-      | in[i * 4 + 1] << 16 & 0x00FF0000U
-      | in[i * 4 + 2] << 8 & 0x0000FF00U
-      | in[i * 4 + 3] & 0x000000FFU;
+    state[i] = in[i * 4 + 3] << 24 & 0xFF000000U
+      | in[i * 4 + 2] << 16 & 0x00FF0000U
+      | in[i * 4 + 1] << 8 & 0x0000FF00U
+      | in[i * 4 + 0] & 0x000000FFU;
   }
 
   AddRoundKey(state, w);
@@ -107,9 +107,9 @@ void Cipher(unsigned char *in, unsigned char *out, unsigned int *w, const AESpar
 
   for(size_t i = 0; i < aesParam->Nb; i++)
   {
-    out[i * 4] = BYTE3(state[i]);
-    out[i * 4 + 1] = BYTE2(state[i]);
-    out[i * 4 + 2] = BYTE1(state[i]);
-    out[i * 4 + 3] = BYTE0(state[i]);
+    out[i * 4 + 3] = BYTE3(state[i]);
+    out[i * 4 + 2] = BYTE2(state[i]);
+    out[i * 4 + 1] = BYTE1(state[i]);
+    out[i * 4 + 0] = BYTE0(state[i]);
   }
 }

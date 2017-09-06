@@ -1,6 +1,6 @@
 #include "Helpers.h"
 
-unsigned int ConstructUint(unsigned char b3, unsigned char b2, unsigned char b1, unsigned char b0)
+unsigned int ConstructUint(unsigned char b0, unsigned char b1, unsigned char b2, unsigned char b3)
 {
   return b3 << 24 & 0xFF000000U
     | b2 << 16 & 0x00FF0000U

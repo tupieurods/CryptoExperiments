@@ -31,8 +31,8 @@ static unsigned char SboxTable[256] =
 };
 
 static unsigned int Rcon[11] = {
-  0, 0x01000000U, 0x02000000U, 0x04000000U, 0x08000000U, 0x10000000U,
-  0x20000000U, 0x40000000U, 0x80000000U, 0x1b000000U, 0x36000000U
+  0, 0x00000001U, 0x00000002U, 0x00000004U, 0x00000008U, 0x00000010U,
+  0x00000020U, 0x00000040U, 0x00000080U, 0x0000001bU, 0x00000036U
 };
 
 // xtime is a macro that finds the product of {02} and the argument to

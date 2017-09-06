@@ -14,14 +14,15 @@ int main()
   unsigned int *w = new unsigned int[wSize];
   KeyExpansion(cipherKey128, w, selectedAesParam);
 
-  for(size_t i = 0; i < wSize; i++)
+  /*for(size_t i = 0; i < wSize; i++)
   {
     printf("w[%d] = 0x%08x\n", i, w[i]);
-  }
+  }*/
 
   unsigned char cipherOutput[16];
 
-  Cipher(cipherInput, cipherOutput, w ,selectedAesParam);
+  //Cipher(cipherInput, cipherOutput, w, selectedAesParam);
+  CipherWithTables(cipherInput, cipherOutput, w, selectedAesParam);
 
   int failedBytes = 0;
   for(size_t i = 0; i < 4 * selectedAesParam->Nb; i++)
