@@ -124,6 +124,7 @@
     <ClCompile Include="lyra2_raccoon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sponge.cpp" />
+    <ClCompile Include="sponge_raccoon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lyra2.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="sph_blake.h" />
     <ClInclude Include="sph_types.h" />
     <ClInclude Include="sponge.h" />
+    <ClInclude Include="sponge_raccoon.h" />
     <ClInclude Include="TestData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

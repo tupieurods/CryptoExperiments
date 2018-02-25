@@ -42,6 +42,9 @@
     <ClCompile Include="lyra2_raccoon.cpp">
       <Filter>Source Files\raccoon</Filter>
     </ClCompile>
+    <ClCompile Include="sponge_raccoon.cpp">
+      <Filter>Source Files\raccoon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestData.h">
@@ -66,6 +69,9 @@
       <Filter>Header Files\raccoon</Filter>
     </ClInclude>
     <ClInclude Include="lyra2_raccoon.h">
+      <Filter>Header Files\raccoon</Filter>
+    </ClInclude>
+    <ClInclude Include="sponge_raccoon.h">
       <Filter>Header Files\raccoon</Filter>
     </ClInclude>
   </ItemGroup>
