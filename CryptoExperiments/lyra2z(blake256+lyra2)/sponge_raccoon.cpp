@@ -9,9 +9,13 @@
 *
 * @param v     A 1024-bit (16 uint64_t) array to be processed by Blake2b's G function
 */
-inline static void blake2bLyra(uint64_t *v)
+inline static void blake2bLyra_raccoon(uint64_t *v)
 {
-  ROUND_LYRA_RACCOON(0);
+  for(int TT = 0; TT < 12; TT++)
+  {
+    ROUND_LYRA_RACCOON(0);
+  }
+  /*ROUND_LYRA_RACCOON(0);
   ROUND_LYRA_RACCOON(1);
   ROUND_LYRA_RACCOON(2);
   ROUND_LYRA_RACCOON(3);
@@ -22,7 +26,7 @@ inline static void blake2bLyra(uint64_t *v)
   ROUND_LYRA_RACCOON(8);
   ROUND_LYRA_RACCOON(9);
   ROUND_LYRA_RACCOON(10);
-  ROUND_LYRA_RACCOON(11);
+  ROUND_LYRA_RACCOON(11);*/
 }
 
 /**
@@ -73,5 +77,5 @@ void absorbBlockBlake2Safe_raccoon(uint64_t *state, const uint64_t *in)
 
 
   //Applies the transformation f to the sponge's state
-  blake2bLyra(state);
+  blake2bLyra_raccoon(state);
 }
