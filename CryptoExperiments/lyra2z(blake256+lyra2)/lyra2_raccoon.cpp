@@ -30,11 +30,11 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
     paddedInput[63] = 0x01;
     absorbBlockBlake2Safe_raccoon(spongeState, reinterpret_cast<uint64_t *>(paddedInput));
   }
-  printf("Lyra2_32_32_8_8_8 state:\n");
+  /*printf("Lyra2_32_32_8_8_8 state:\n");
   for(int i = 0; i < 16; i++)
   {
     printf("0x%016llx\n", spongeState[i]);
-  }
+  }*/
   // END Bootstrapping phase: init sponge state
   Lyra2MatrixElement matrix[8][8];
   memset(matrix, 0, sizeof matrix);
@@ -47,7 +47,7 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
     }
     reducedBlake2bLyra_raccoon(spongeState);
   }
-  printf("Lyra2_32_32_8_8_8 M[0]:\n");
+  /*printf("Lyra2_32_32_8_8_8 M[0]:\n");
   for(int i = 0; i < 8; i++)
   {
     for(int j = 0; j < 12; j++)
@@ -55,7 +55,7 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
       printf("0x%016llx;", matrix[0][i].item[j]);
     }
     printf("\n");
-  }
+  }*/
   // BEGIN Setup phase.
   
   // END Setup phase.
