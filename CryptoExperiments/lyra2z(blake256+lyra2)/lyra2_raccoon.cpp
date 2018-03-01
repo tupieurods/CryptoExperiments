@@ -4,6 +4,11 @@
 #include "sponge_raccoon.h"
 //#include "lyra2.h"
 
+struct Lyra2MatrixElement
+{
+  uint64_t item[12];
+};
+
 void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
 {
   // BEGIN Bootstrapping phase: init sponge state
@@ -31,5 +36,29 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
     printf("0x%016llx\n", spongeState[i]);
   }
   // END Bootstrapping phase: init sponge state
+  Lyra2MatrixElement matrix[8][8];
+  memset(matrix, 0, sizeof matrix);
+  // for (col 0 to C-1) do {M[0][C-1-col] = H.reduced_squeeze(b)} Initializes M[0]
+  for(int i = 0; i < 8; i++)
+  {
+    for(int j = 0; j < 12; j++)
+    {
+      matrix[0][7 - i].item[j] = spongeState[j];
+    }
+    reducedBlake2bLyra_raccoon(spongeState);
+  }
+  printf("Lyra2_32_32_8_8_8 M[0]:\n");
+  for(int i = 0; i < 8; i++)
+  {
+    for(int j = 0; j < 12; j++)
+    {
+      printf("0x%016llx;", matrix[0][i].item[j]);
+    }
+    printf("\n");
+  }
+  // BEGIN Setup phase.
+  
+  // END Setup phase.
+
   //LYRA2(state, 32, input, 32, input, 32, 8, 8, 8);
 }

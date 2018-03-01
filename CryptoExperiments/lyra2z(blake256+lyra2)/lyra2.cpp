@@ -138,14 +138,23 @@ int LYRA2(void *K, uint64_t kLen, const void *pwd, uint64_t pwdlen, const void *
       ptrWord += BLOCK_LEN_BLAKE2_SAFE_INT64; //goes to next block of pad(pwd || salt || basil)
     }
 
-    printf("LYRA2 state:\n");
-    for(int i = 0; i < 16; i++)
+    /*printf("LYRA2 state:\n");
+    for(i = 0; i < 16; i++)
     {
       printf("0x%016llx\n", state[i]);
-    }
+    }*/
 
     //Initializes M[0] and M[1]
     reducedSqueezeRow0(state, memMatrix[0], nCols); //The locally copied password is most likely overwritten here
+    /*printf("LYRA2 M[0]:\n");
+    for(i = 0; i < 8; i++)
+    {
+      for(int j = 0; j < 12; j++)
+      {
+        printf("0x%016llx;", memMatrix[0][i * 12 + j]);
+      }
+      printf("\n");
+    }*/
     reducedDuplexRow1(state, memMatrix[0], memMatrix[1], nCols);
 
     do {

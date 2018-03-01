@@ -45,3 +45,4 @@ static inline uint64_t rotr64_raccoon(const uint64_t w, const unsigned c) {
 
 void initState_raccoon(uint64_t state[/*16*/]);
 void absorbBlockBlake2Safe_raccoon(uint64_t *state, const uint64_t *in);
+void reducedBlake2bLyra_raccoon(uint64_t *v);
