@@ -24,6 +24,28 @@
 #include "lyra2.h"
 #include "sponge.h"
 
+void printSpongeState(uint64_t *state)
+{
+  printf("LYRA2 state:\n");
+  for(int i = 0; i < 16; i++)
+  {
+    printf("0x%016llx\n", state[i]);
+  }
+}
+
+void printMatrixRow(uint64_t *memMatrix)
+{
+  printf("LYRA2 memMatrix row:\n");
+  for(int i = 0; i < 8; i++)
+  {
+    for(int j = 0; j < 12; j++)
+    {
+      printf("0x%016llx_", memMatrix[i * 12 + j]);
+    }
+    printf("\n");
+  }
+}
+
 /**
  * Executes Lyra2 based on the G function from Blake2b. This version supports salts and passwords
  * whose combined length is smaller than the size of the memory matrix, (i.e., (nRows x nCols x b) bits,
@@ -138,24 +160,14 @@ int LYRA2(void *K, uint64_t kLen, const void *pwd, uint64_t pwdlen, const void *
       ptrWord += BLOCK_LEN_BLAKE2_SAFE_INT64; //goes to next block of pad(pwd || salt || basil)
     }
 
-    /*printf("LYRA2 state:\n");
-    for(i = 0; i < 16; i++)
-    {
-      printf("0x%016llx\n", state[i]);
-    }*/
+    //printSpongeState(state);
 
     //Initializes M[0] and M[1]
     reducedSqueezeRow0(state, memMatrix[0], nCols); //The locally copied password is most likely overwritten here
-    /*printf("LYRA2 M[0]:\n");
-    for(i = 0; i < 8; i++)
-    {
-      for(int j = 0; j < 12; j++)
-      {
-        printf("0x%016llx;", memMatrix[0][i * 12 + j]);
-      }
-      printf("\n");
-    }*/
+    //printMatrixRow(memMatrix[0]);
     reducedDuplexRow1(state, memMatrix[0], memMatrix[1], nCols);
+    printSpongeState(state);
+    printMatrixRow(memMatrix[1]);
 
     do {
       //M[row] = rand; //M[row*] = M[row*] XOR rotW(rand)
