@@ -166,8 +166,8 @@ int LYRA2(void *K, uint64_t kLen, const void *pwd, uint64_t pwdlen, const void *
     reducedSqueezeRow0(state, memMatrix[0], nCols); //The locally copied password is most likely overwritten here
     //printMatrixRow(memMatrix[0]);
     reducedDuplexRow1(state, memMatrix[0], memMatrix[1], nCols);
-    printSpongeState(state);
-    printMatrixRow(memMatrix[1]);
+    //printSpongeState(state);
+    //printMatrixRow(memMatrix[1]);
 
     do {
       //M[row] = rand; //M[row*] = M[row*] XOR rotW(rand)
@@ -187,6 +187,7 @@ int LYRA2(void *K, uint64_t kLen, const void *pwd, uint64_t pwdlen, const void *
       window *= 2; //doubles the size of the re-visitation window
       gap = -gap; //inverts the modifier to the step
     }
+      printMatrixRow(memMatrix[prev]);
 
     } while (row < nRows);
     //==========================================================================/
