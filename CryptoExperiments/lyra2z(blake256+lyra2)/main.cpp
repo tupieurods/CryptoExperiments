@@ -2,10 +2,13 @@
 #include "TestData.h"
 #include "lyra2z.h"
 #include "lyra2z_raccoon.h"
+#include <cstring>
 
 int main()
 {
   unsigned char state[32], state2[32];
+  memset(state, 0, sizeof(unsigned char) * 32);
+  memset(state2, 0, sizeof(unsigned char) * 32);
   lyra2Zhash(state, testInput);
   Lyra2ZhashRaccoon(state2, testInput);
 

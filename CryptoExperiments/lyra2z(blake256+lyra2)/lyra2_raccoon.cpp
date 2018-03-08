@@ -38,10 +38,18 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
   initState_raccoon(spongeState);
   {
     unsigned char paddedInput[64];
-    memcpy(paddedInput, input, 32 * sizeof(unsigned char));
-    memcpy(paddedInput + 32, input, 32 * sizeof(unsigned char));
+    /*memcpy(paddedInput, input, 32 * sizeof(unsigned char));
+    memcpy(paddedInput + 32, input, 32 * sizeof(unsigned char));*/
+    for(int i = 0; i < 4; i++)
+    {
+      ((uint64_t*)paddedInput)[i] = ((uint64_t*)paddedInput)[i + 4] = ((uint64_t*)input)[i];
+    }
     absorbBlockBlake2Safe_raccoon(spongeState, reinterpret_cast<uint64_t *>(paddedInput));
-    memset(paddedInput, 0, 64 * sizeof(unsigned char));
+    //memset(paddedInput, 0, 64 * sizeof(unsigned char));
+    for(int i = 0; i < 8; i++)
+    {
+      ((uint64_t*)paddedInput)[i] = 0;
+    }
     paddedInput[0] = 32;
     paddedInput[8] = 32;
     paddedInput[16] = 32;
@@ -56,7 +64,7 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
   // END Bootstrapping phase: init sponge state
   
   Lyra2MatrixElement matrix[8][8];
-  memset(matrix, 0, sizeof matrix);
+  //memset(matrix, 0, sizeof matrix);
  
   // BEGIN Setup phase.
 
@@ -184,7 +192,14 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
   // Output size is 32 bytes. sponge state size - 96 bytes. There is nothing to squeeeze in this case.
   // END Wrap-up Phase
 
-  memcpy(output, spongeState, sizeof(unsigned char) * 32);
+  //memcpy(output, spongeState, sizeof(unsigned char) * 32);
+  for(int i = 0; i < 4; i++)
+  {
+    ((uint64_t *)output)[i] = spongeState[i];
+  }
+
+  /*memset(spongeState, 0 , sizeof(spongeState));
+  memset(matrix, 0, sizeof matrix);*/
 
   //LYRA2(state, 32, input, 32, input, 32, 8, 8, 8);
 }

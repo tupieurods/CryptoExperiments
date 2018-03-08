@@ -9,6 +9,8 @@ void Lyra2ZhashRaccoon(unsigned char * state, const unsigned char * input)
   sph_blake256_context ctx_blake;
 
   unsigned int hashA[8], hashB[8];
+  memset(hashA, 0, sizeof hashA);
+  memset(hashB, 0, sizeof hashB);
 
   sph_blake256_init(&ctx_blake);
   sph_blake256(&ctx_blake, input, 80, 14);
