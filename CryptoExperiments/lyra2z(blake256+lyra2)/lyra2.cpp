@@ -218,12 +218,13 @@ int LYRA2(void *K, uint64_t kLen, const void *pwd, uint64_t pwdlen, const void *
         //printMatrixRow(memMatrix[prev]);
       } while (row != 0);
     }
-    printMatrixRow(memMatrix[rowa]);
+    //printMatrixRow(memMatrix[rowa]);
     //==========================================================================/
 
     //============================ Wrap-up Phase ===============================//
     //Absorbs the last block of the memory matrix
     absorbBlock(state, memMatrix[rowa]);
+    //printSpongeState(state);
 
     //Squeezes the key
     squeeze(state, static_cast<unsigned char *>(K), kLen);

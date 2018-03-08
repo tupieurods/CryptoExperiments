@@ -168,8 +168,23 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
       //printMatrixRow_raccoon(matrix[prev0]);
     } while(row0 != 0);
   }
-  printMatrixRow_raccoon(matrix[row1]);
+  //printMatrixRow_raccoon(matrix[row1]);
   // END Wandering phase.
+
+  // BEGIN Wrap-up Phase
+  //Absorbs the last block of the memory matrix
+  for(int i = 0; i < 12; i++)
+  {
+    spongeState[i] ^= matrix[row1][0].item[i];
+  }
+  blake2bLyra_raccoon(spongeState);
+  //printSpongeState_raccoon(spongeState);
+
+  //Squeezes the key
+  // Output size is 32 bytes. sponge state size - 96 bytes. There is nothing to squeeeze in this case.
+  // END Wrap-up Phase
+
+  memcpy(output, spongeState, sizeof(unsigned char) * 32);
 
   //LYRA2(state, 32, input, 32, input, 32, 8, 8, 8);
 }

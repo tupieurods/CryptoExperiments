@@ -9,7 +9,7 @@
 *
 * @param v     A 1024-bit (16 uint64_t) array to be processed by Blake2b's G function
 */
-inline static void blake2bLyra_raccoon(uint64_t *v)
+void blake2bLyra_raccoon(uint64_t *v)
 {
   for(int TT = 0; TT < 12; TT++)
   {
