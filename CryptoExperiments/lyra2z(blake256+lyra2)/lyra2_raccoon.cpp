@@ -54,8 +54,10 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
   }
   //printSpongeState_raccoon(spongeState);
   // END Bootstrapping phase: init sponge state
+  
   Lyra2MatrixElement matrix[8][8];
   memset(matrix, 0, sizeof matrix);
+ 
   // BEGIN Setup phase.
 
   // for (col 0 to C-1) do {M[0][C-1-col] = H.reduced_squeeze(b)} Initializes M[0]
@@ -127,10 +129,47 @@ void Lyra2_32_32_8_8_8(unsigned char *output, const unsigned char *input)
       window *= 2; //doubles the size of the re-visitation window
       gap = -gap; //inverts the modifier to the step
     }
-    printMatrixRow_raccoon(matrix[prev0]);
+    //printMatrixRow_raccoon(matrix[prev0]);
   } while(row0 < 8);
-
   // END Setup phase.
+
+  // BEGIN Wandering phase.
+  row0 = 0; // Resets the visitation to the first row of the memory matrix
+  for(int tau = 1; tau <= 8; tau++)
+  {
+    //Step is approximately half the number of all rows of the memory matrix for an even tau; otherwise, it is -1
+    step = (tau % 2 == 0) ? -1 : 3;
+    do
+    {
+      //Selects a pseudorandom index row*
+      row1 = spongeState[0] & 7;
+
+      for(int i = 0; i < 8; i++)
+      {
+        for(int j =0; j < 12; j++)
+        {
+          spongeState[j] ^= matrix[prev0][i].item[j] + matrix[row1][i].item[j];
+        }
+        reducedBlake2bLyra_raccoon(spongeState);
+        for(int j = 0; j < 12; j++)
+        {
+          matrix[row0][i].item[j] ^= spongeState[j];
+        }
+        for(int j = 0; j < 12; j++)
+        {
+          matrix[row1][i].item[j] ^= spongeState[(11 + j) % 12];
+        }
+      }
+
+      //update prev: it now points to the last row ever computed
+      prev0 = row0;
+      //updates row: goes to the next row to be computed
+      row0 = (row0 + step) & 7;
+      //printMatrixRow_raccoon(matrix[prev0]);
+    } while(row0 != 0);
+  }
+  printMatrixRow_raccoon(matrix[row1]);
+  // END Wandering phase.
 
   //LYRA2(state, 32, input, 32, input, 32, 8, 8, 8);
 }

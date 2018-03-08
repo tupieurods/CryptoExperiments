@@ -187,7 +187,7 @@ int LYRA2(void *K, uint64_t kLen, const void *pwd, uint64_t pwdlen, const void *
       window *= 2; //doubles the size of the re-visitation window
       gap = -gap; //inverts the modifier to the step
     }
-      printMatrixRow(memMatrix[prev]);
+      //printMatrixRow(memMatrix[prev]);
 
     } while (row < nRows);
     //==========================================================================/
@@ -215,9 +215,10 @@ int LYRA2(void *K, uint64_t kLen, const void *pwd, uint64_t pwdlen, const void *
   	    //row = (row + step) & (nRows-1);	//(USE THIS IF nRows IS A POWER OF 2)
   	    row = (row + step) % nRows; //(USE THIS FOR THE "GENERIC" CASE)
   	    //------------------------------------------------------------------------------------------
-
+        //printMatrixRow(memMatrix[prev]);
       } while (row != 0);
     }
+    printMatrixRow(memMatrix[rowa]);
     //==========================================================================/
 
     //============================ Wrap-up Phase ===============================//
