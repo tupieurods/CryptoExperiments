@@ -13,7 +13,7 @@ void blake2bLyra_raccoon(uint64_t *v)
 {
   for(int TT = 0; TT < 12; TT++)
   {
-    ROUND_LYRA_RACCOON(0);
+    ROUND_LYRA_RACCOON;
   }
   /*ROUND_LYRA_RACCOON(0);
   ROUND_LYRA_RACCOON(1);

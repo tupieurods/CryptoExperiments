@@ -19,7 +19,7 @@ static inline uint64_t rotr64_raccoon(const uint64_t w, const unsigned c) {
 }
 
 /*Blake2b's G function*/
-#define G_RACCOON(r,i,a,b,c,d) \
+#define G_RACCOON(a,b,c,d) \
   do { \
     a = a + b; \
     d = rotr64_raccoon(d ^ a, 32); \
@@ -33,15 +33,15 @@ static inline uint64_t rotr64_raccoon(const uint64_t w, const unsigned c) {
 
 
 /*One Round of the Blake2b's compression function*/
-#define ROUND_LYRA_RACCOON(r)  \
-    G_RACCOON(r,0,v[ 0],v[ 4],v[ 8],v[12]); \
-    G_RACCOON(r,1,v[ 1],v[ 5],v[ 9],v[13]); \
-    G_RACCOON(r,2,v[ 2],v[ 6],v[10],v[14]); \
-    G_RACCOON(r,3,v[ 3],v[ 7],v[11],v[15]); \
-    G_RACCOON(r,4,v[ 0],v[ 5],v[10],v[15]); \
-    G_RACCOON(r,5,v[ 1],v[ 6],v[11],v[12]); \
-    G_RACCOON(r,6,v[ 2],v[ 7],v[ 8],v[13]); \
-    G_RACCOON(r,7,v[ 3],v[ 4],v[ 9],v[14]);
+#define ROUND_LYRA_RACCOON  \
+    G_RACCOON(v[ 0],v[ 4],v[ 8],v[12]); \
+    G_RACCOON(v[ 1],v[ 5],v[ 9],v[13]); \
+    G_RACCOON(v[ 2],v[ 6],v[10],v[14]); \
+    G_RACCOON(v[ 3],v[ 7],v[11],v[15]); \
+    G_RACCOON(v[ 0],v[ 5],v[10],v[15]); \
+    G_RACCOON(v[ 1],v[ 6],v[11],v[12]); \
+    G_RACCOON(v[ 2],v[ 7],v[ 8],v[13]); \
+    G_RACCOON(v[ 3],v[ 4],v[ 9],v[14]);
 
 void initState_raccoon(uint64_t state[/*16*/]);
 void absorbBlockBlake2Safe_raccoon(uint64_t *state, const uint64_t *in);
